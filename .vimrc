@@ -19,6 +19,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ycm-core/YouCompleteMe'
 Plugin 'preservim/nerdtree'
 Plugin 'beautify-web/js-beautify'
+Plugin 'junegunn/fzf.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
@@ -52,21 +53,35 @@ set showcmd
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-" turn hybrid line numbers on
+" #####################################################################
+" Styles
+" #####################################################################
+" Line number display
 set number relativenumber
 set nu rnu
-colorscheme gruvbox
-set bg=dark
 set laststatus=2
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set wildmenu
+"################################################################################ 
+"Colors
+"################################################################################ 
+colorscheme gruvbox
+set bg=dark
 hi Normal guibg=NONE ctermbg=NONE
+
+"################################################################################ 
+"Compiler Settings
+"################################################################################ 
 " Use homebrew's clangd
 let g:ycm_clangd_binary_path = trim(system('brew --prefix llvm')).'/bin/clangd'
+"################################################################################
+"Custom Key Maps
+"################################################################################
 " fzf
-nnoremap <c-p> :FZF<CR>
+nnoremap <c-p> :Files<CR>
+nnoremap <c-f> :Ag<CR>
 " run in current buffer
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>

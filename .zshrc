@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/akirakoizumi/.oh-my-zsh"
+export ZSH="/Users/$USER/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -106,8 +106,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+# =======================================================================
+# ==Alias
+# =======================================================================
 alias r="ranger"
+alias g='googler -n 7 -c jp -l jp'
 
+# =======================================================================
+# ==Anaconda
+# =======================================================================
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export PATH=/opt/homebrew/anaconda3/bin:"$PATH"
@@ -127,19 +135,32 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# =======================================================================
+# ==Env Var Configs
+# =======================================================================
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
-export PATH="$PATH:/Users/akirakoizumi/bin"
+#Path to run my own script
+export PATH="$PATH:/Users/$USER/bin"
+#updated vim installed via Homebrew
 export vim="/opt/homebrew/bin/vim"
+#Ranger Configs
+export PAGER=bat
+export PROJDIR="$HOME/Projects"
+#
+# =======================================================================
+# ==FZF Configs
+# =======================================================================
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPS="--extended --hidden"
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g .'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g .'" $PROJDIR"
 export FZF_CTRL_T_COMMAND="fd . --hidden $HOME"
 export FZF_ALT_C_COMMAND="fd . --hidden $HOME"
-
-# ch - browse chrome history
+# =======================================================================
+# ==Search Browser History
+# =======================================================================
 ch() {
   local cols sep
   cols=$(( COLUMNS / 3 ))
