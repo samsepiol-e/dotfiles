@@ -1,271 +1,120 @@
 #Order of Mod Keys: Ctrl, Alt, Cmd, Shift
 ctrl + alt + cmd - r : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
-cmd + shift - w : ~/bin/stackwindows.sh
 cmd + shift - d : yabai -m space --toggle show-desktop
+################################################################################
+#  
+################################################################################
+#ctrl - z : ~/bin/resizewindow.sh toggle_zoom
+ctrl + alt + cmd -f : ~/bin/resizewindow.sh toggle_window_float
 
-#:: default : yabai -m config active_window_border_color 0xff775759
-:: default : echo "Default" > "/Users/akirakoizumi/buffer/mode"
-#:: navMode : yabai -m config active_window_border_color 0xff24ccaa
-:: navMode @ : echo "Navigation" > "/Users/akirakoizumi/buffer/mode"
-:: insertMode: echo "Insert" > "/Users/akirakoizumi/buffer/mode"
-#yabai -m config active_window_border_color 0xff249acc
-:: resizeMode @: echo "Resize" > "/Users/akirakoizumi/buffer/mode"
-###############COMMON
-#hotkeys to go to default
-navMode,resizeMode < escape ; default
-insertMode < cmd - escape; default
-resizeMode < return ; navMode
-navMode < return ; default
+#################################################################################
+# Window resize
+#################################################################################
+cmd + shift - h: ~/bin/adjust_window_border.sh west
+cmd + shift - j: ~/bin/adjust_window_border.sh south
+cmd + shift - k: ~/bin/adjust_window_border.sh north
+cmd + shift - l: ~/bin/adjust_window_border.sh east
+ctrl - m : ~/bin/resizewindow.sh minimizewindow
+ctrl + shift - m : ~/bin/resizewindow.sh deminimize
+ctrl + shift  - f : yabai -m window --toggle zoom-parent
+cmd + shift - f : yabai -m window --toggle zoom-fullscreen
+#################################################################################
+# MPC
+#################################################################################
+ctrl + alt + cmd - h: mpc prev
+ctrl + alt + cmd - l: mpc next
+ctrl + alt + cmd - s: mpc shuffle
+ctrl + alt + cmd - j: mpc volume -10
+ctrl + alt + cmd - k: mpc volume +10
+ctrl + alt + cmd - 0: mpc volume 0
+ctrl + alt + cmd - 9: mpc volume 100
+ctrl + alt + cmd - space: mpc toggle
+ctrl + alt + cmd - m: mpd --kill && mpd
 
-#hotkeys to navigation
-default,insertMode < cmd - k; navMode
-#hotkeys to insert mode
-default,navMode < cmd - i; insertMode
-#
-#hotkeys for resize mode
-default,navMode < cmd - r; resizeMode
-#AppMode, open app from nav mode, then to default
-:: appMode @: echo "AppMode" &> "/Users/akirakoizumi/buffer/mode"
-#Switch to/from App Mode
-navMode < a; appMode
-default < cmd + shift - a; appMode
-appMode < escape ; default
-appMode < return ; navMode
-
-#App Mode Open App
-appMode < b: open -na "/Applications/Brave Browser.app" ; skhd -k "escape"
-appMode < c: open -na "/Applications/calibre.app" ; skhd -k "escape"
-appMode < d: open -na "/Applications/Discord.app" ; skhd -k "escape"
-appMode < s: open -na "/Applications/Signal.app" ; skhd -k "escape"
-appMode < r : kitty --single-instance -d ~ ranger ; skhd -k "escape"
-appMode < v : kitty --single-instance -d ~ vim ; skhd -k "escape"
-appMode < w : ~/bin/stackwindows.sh
-appMode < y: open -na "/Applications/YACReaderLibrary.app" ; skhd -k "escape"
-#open terminal
-default,navMode,insertMode <  cmd - return: kitty --single-instance -d ~
-#default,navMode,insertMode <  cmd + shift - b: open -na "/Applications/Brave Browser.app"
-#default,navMode,insertMode <  cmd + shift - b: open -na "/Applications/Brave Browser.app --args --incognito"
-
-#######LAYOUT
-default,navMode < cmd + shift - s : yabai -m space --layout stack; yabai -m space --padding abs:0:0:40:0
-default,navMode < cmd + shift - b : yabai -m space --layout bsp
-default,navMode < cmd + shift  - space : yabai -m space --layout float
-# toggle window split type
-default,navMode < cmd - e : yabai -m window --toggle split
-#
-####################NAV MODE######
-############NAVIGATION
-#Tile
-navMode < h             : yabai -m window --focus west
-navMode < k             : yabai -m window --focus north
-navMode < j             : yabai -m window --focus south
-navMode < l             : yabai -m window --focus east
-navMode < x             : yabai -m window --focus recent
-#Stacked Windows
-navMode < u             : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
-navMode < d             : yabai -m window --focus stack.next || yabai -m window --focus stack.first
-#navMode < u             : ~/bin/focusPrev.sh
-#navMode < d             : ~/bin/focusNext.sh
-#Zoom
-navMode < f : yabai -m window --toggle zoom-parent
-####SPACE
-navMode < q             : yabai -m window --close; yabai -m window --focus recent
-navMode < 1             : yabai -m space --focus 1
-navMode < 2             : yabai -m space --focus 2
-navMode < 3             : yabai -m space --focus 3
-navMode < 4             : yabai -m space --focus 4
-navMode < 5             : yabai -m space --focus 5
-navMode < 6             : yabai -m space --focus 6
-navMode < 7             : yabai -m space --focus 7
-navMode < 8             : yabai -m space --focus 8
-navMode < shift - h     : yabai -m space --focus prev
-navMode < shift - l     : yabai -m space --focus next
-navMode < shift - x     : yabai -m space --focus recent
-
-#Move Window to Space and Focus
-navMode < ctrl - 1      : yabai -m window --space 1; yabai -m space --focus 1
-navMode < ctrl - 2      : yabai -m window --space 2; yabai -m space --focus 2
-navMode < ctrl - 3      : yabai -m window --space 3; yabai -m space --focus 3
-navMode < ctrl - 4      : yabai -m window --space 4; yabai -m space --focus 4
-navMode < ctrl - 5      : yabai -m window --space 5; yabai -m space --focus 5
-navMode < ctrl - 6      : yabai -m window --space 6; yabai -m space --focus 6
-navMode < ctrl - 7      : yabai -m window --space 7; yabai -m space --focus 7
-navMode < ctrl - 8      : yabai -m window --space 8; yabai -m space --focus 8
-
-navMode < ctrl - h      : yabai -m window --space prev; yabai -m space --focus prev
-navMode < ctrl - l      : yabai -m window --space next; yabai -m space --focus next
-navMode < ctrl - x      : yabai -m window --space recent; yabai -m space --focus recent
-
-navMode < ctrl - e      : yabai -m window --toggle split
-navMode < ctrl - b      : yabai -m space --layout bsp
-navMode < ctrl - space  : yabai -m space --layout float
-navMode < ctrl - s      : yabai -m space --layout stack
-navMode < ctrl - w      : ~/bin/stackwindows.sh
-########NAVMODE MODE SIMPLE SHORTCUT
-navMode < i; insertMode
-navMode < r; resizeMode
-navMode < cmd - h : yabai -m window --insert west; skhd -k "a"
-navMode < cmd - j : yabai -m window --insert south; skhd -k "a"
-navMode < cmd - k : yabai -m window --insert north; skhd -k "a"
-navMode < cmd - l : yabai -m window --insert east; skhd -k "a"
-
-:: swapMode : echo "Swap" &> "/Users/akirakoizumi/buffer/mode"
-:: warpMode : echo "Warp" &> "/Users/akirakoizumi/buffer/mode"
-swapMode,warpMode < escape ; default
-navMode,warpMode < s ; swapMode
-navMode,swapMode < w ; warpMode
-
-#TOGGLE
-swapMode,warpMode < return; navMode
-#
-#####SWAP&WARP
-swapMode < h : yabai -m window --swap west; skhd -k "return"
-swapMode < j : yabai -m window --swap south; skhd -k "return"
-swapMode < k : yabai -m window --swap north; skhd -k "return"
-swapMode < l : yabai -m window --swap east; skhd -k "return"
-warpMode < h : yabai -m window --warp west; skhd -k "return"
-warpMode < j : yabai -m window --warp south; skhd -k "return"
-warpMode < k : yabai -m window --warp north; skhd -k "return"
-warpMode < l : yabai -m window --warp east; skhd -k "return"
-#STACKMODE
-#stackMode < h : yabai -m window --stack west
-#stackMode < j : yabai -m window --stack south
-#stackMode < k : yabai -m window --stack north
-#stackMode < l : yabai -m window --stack east
-#stackMode < h : yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')
-#stackMode < j : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
-#stackMode < k : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
-#stackMode < l : yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')
-#
-##insert mode, back to default mode after
-#insertMode < h : yabai -m window --insert west ; skhd -k "n"
-#insertMode < j : yabai -m window --insert south ; skhd -k "n"
-#insertMode < k : yabai -m window --insert north ; skhd -k "n"
-#insertMode < l : yabai -m window --insert east ; skhd -k "n"
-#
-#
-#####################################RESIZE
-#######Borders
-#choose Borders
-:: rightBorder : yabai -m config active_window_border_color 0xff0080ff
-:: leftBorder : yabai -m config active_window_border_color 0xffffffff
-:: topBorder : yabai -m config active_window_border_color 0xff808080
-:: bottomBorder : yabai -m config active_window_border_color 0xffff4000
-:: paddingMode @: echo "Padding" &> "/Users/akirakoizumi/buffer/mode"
-resizeMode < p ; paddingMode
-resizeMode < l ; rightBorder
-resizeMode < h ; leftBorder
-resizeMode < k ; topBorder
-resizeMode < j ; bottomBorder
-paddingMode < h : yabai -m space --padding abs:30:0:40:0
-paddingMode < l : yabai -m space --padding abs:30:0:0:40
-paddingMode < 0 : yabai -m space --padding abs:30:0:0:0
-paddingMode < j : yabai -m space --gap rel:10
-paddingMode < k : yabai -m space --gap rel:-10
-rightBorder,leftBorder,topBorder,bottomBorder,paddingMode < escape ; default
-rightBorder,leftBorder,topBorder,bottomBorder,paddingMode < return ; navMode
-
-#horizontal
-
-rightBorder < l : yabai -m window --resize right:20:0
-rightBorder < h : yabai -m window --resize right:-20:0
-leftBorder < l : yabai -m window --resize left:20:0
-leftBorder < h : yabai -m window --resize left:-20:0
-rightBorder,leftBorder <k ; topBorder
-rightBorder,leftBorder <j ; bottomBorder
-#vertical
-topBorder < k : yabai -m window --resize top:0:-20
-topBorder < j : yabai -m window --resize top:0:20
-bottomBorder < k : yabai -m window --resize bottom:0:-20
-bottomBorder < j : yabai -m window --resize bottom:0:20
-topBorder,bottomBorder <h ; leftBorder
-topBorder,bottomBorder <l ; rightBorder
-#:: prefix @   : chunkc border::color 0xFFFAC863; sleep 5; skhd -k "escape"
-#:: prefix @ : echo "prefix mode": sleep 5 : skhd -k "escape"
-#:: insert @ : echo  "insert mode"
-#:: navigation @ : echo  "navigation mode"
-#prefix < i ; insert
-#prefix < n ; navigation
-#navigation < h : yabai -m window --navigation west
-#navigation < j : yabai -m window --navigation south
-#navigation < k : yabai -m window --navigation north
-#navigation < l : yabai -m window --navigation east
-#
-#insert < h : yabai -m window --insert west ; default
-#insert < j : yabai -m window --insert south ; default
-#insert < k : yabai -m window --insert north ; default
-#insert < l : yabai -m window --insert east ; default
-#
-#ctrl - s ; stack
-#insert,stack < escape ; default
-#insert < cmd - return: kitty --single-instance ~
-#stack < h : yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')
-#stack < j : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
-#stack < k : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
-#stack < l : yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')
-# Moving Operations
-## Swap : Shift + Ctrl
-## Warp : Shift + Alt
-## Stack : Shift+Cmd
-## Insert : Cmd+Ctrl
-## focus window
-#
-# changing to different workspace
-#close window
-alt - q : yabai -m window --close && yabai -m window --focus recent
+#################################################################################
+# Launcher
+#################################################################################
+ctrl - return: kitty --single-instance -d ~
+ctrl + shift - r: kitty --single-instance -d ~ ranger
+cmd -d : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ "$HOME/bin/launcher.sh"
+cmd -m : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ $HOME/bin/findr.sh man_find
+cmd -o : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ $HOME/bin/findr.sh openfile
+cmd + shift-o : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ $HOME/bin/findr.sh openfilebytype
+cmd + shift -v : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ $HOME/bin/findr.sh viewfile
+cmd -g : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ $HOME/bin/findr.sh fbg
+cmd - e : yabai -m window --toggle split
+ctrl + shift - c : ~/bin/simplecalc.sh
+#################################################################################
+# SPACE Layout
+#################################################################################
+cmd + shift -r : kitty -1 -d ~ ranger
+cmd + shift - b : yabai -m space --layout bsp
+cmd + shift  - space : yabai -m space --layout float
+ctrl - q : yabai -m window --close && yabai -m window --focus recent
 ## Warp : alt + Shift
 
-alt - x : yabai -m window --focus recent
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
-#alt - d : yabai -m window --focus stack.next
-#alt - u : yabai -m window --focus stack.prev
-alt -  u             : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
-alt -  d             : yabai -m window --focus stack.next || yabai -m window --focus stack.first
-#alt - d : ~/bin/focusNext.sh
-#alt - u : ~/bin/focusPrev.sh
-#alt - d : ~/bin/focusNext.sh
-#alt - u : ~/bin/focusPrev.sh
-#alt - x : yabai -m window --focus stack.recent
+#################################################################################
+# Focus Windows
+#################################################################################
+alt - x             : yabai -m window --focus recent
+alt - h             : yabai -m window --focus west
+alt - j             : yabai -m window --focus south
+alt - k             : yabai -m window --focus north
+alt - l             : yabai -m window --focus east
+alt - u             : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+alt - d             : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 
-# swap window
-#shift + ctrl - h : yabai -m window --warp west
-#shift + ctrl - j : yabai -m window --warp south
-#shift + ctrl - k : yabai -m window --warp north
-#shift + ctrl - l : yabai -m window --warp east
-
-# insert window
-#cmd + ctrl - h : yabai -m window --insert west
-#cmd + ctrl - j : yabai -m window --insert south
-#cmd + ctrl - k : yabai -m window --insert north
-#cmd + ctrl - l : yabai -m window --insert east
-#warp window
-#alt + shift - h : yabai -m window --warp west
+#################################################################################
+#Swap Windows
+#################################################################################
 alt + shift - h : yabai -m window --swap west
 alt + shift - j : yabai -m window --swap south
 alt + shift - k : yabai -m window --swap north
 alt + shift - l : yabai -m window --swap east
-#stack window
-#
+#################################################################################
+#Stack Windows
+#################################################################################
+cmd + shift - w : ~/bin/stackwindows.sh
 ctrl + alt - h  : yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')
 ctrl + alt - j  : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
 ctrl + alt - k    : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
 ctrl + alt- l : yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')
-
+#
 #move space
-cmd - 1 : yabai -m space --focus 1
-cmd - 2 : yabai -m space --focus 2
-cmd - 3 : yabai -m space --focus 3
-cmd - 4 : yabai -m space --focus 4
-cmd - 5 : yabai -m space --focus 5
-cmd - 6 : yabai -m space --focus 6
-cmd - 7 : yabai -m space --focus 7
-cmd - 8 : yabai -m space --focus 8
-#cmd - h : yabai -m space --focus prev
-#cmd - l : yabai -m space --focus next
-#cmd - x : yabai -m space --focus recent
+#################################################################################
+#Space Operations
+#################################################################################
+#################################################################################
+#Focus space
+#################################################################################
+ctrl - 1 : yabai -m space --focus 1
+ctrl - 2 : yabai -m space --focus 2
+ctrl - 3 : yabai -m space --focus 3
+ctrl - 4 : yabai -m space --focus 4
+ctrl - 5 : yabai -m space --focus 5
+ctrl - 6 : yabai -m space --focus 6
+ctrl - 7 : yabai -m space --focus 7
+ctrl - 8 : yabai -m space --focus 8
+#ctrl + shift - h : yabai -m space --focus prev
+#ctrl + shift - l : yabai -m space --focus next
+ctrl - x : yabai -m space --focus recent
+#################################################################################
+#SPACE ADD | SPACE DESTROY
+#################################################################################
+ctrl - 0x18 : yabai -m space --create $(yabai -m query --spaces --display | jq -r "[.[] | .index] | max") 
+ctrl - 0x1B : yabai -m space --destroy $(yabai -m query --spaces --display | jq -r "[.[] | .index] | max") 
+#################################################################################
+# Rotate
+#################################################################################
+cmd  + shift - 0x2F : yabai -m space --rotate 270 # >
+cmd  + shift - 0x2B : yabai -m space --rotate 90 # <
+ctrl + shift - y : yabai -m space --mirror y-axis
+ctrl + shift - 0x2A : yabai -m window --toggle split # |
+ctrl + shift - 0x1E : yabai -m space --gap rel:10 # }
+ctrl + shift - 0x21 : yabai -m space --gap rel:-10 # {
+#################################################################################
+#SPACE MOVE
+#################################################################################
 ctrl + cmd - 1 : yabai -m space --move 1
 ctrl + cmd - 2 : yabai -m space --move 2
 ctrl + cmd - 3 : yabai -m space --move 3
@@ -274,6 +123,22 @@ ctrl + cmd - 5 : yabai -m space --move 5
 ctrl + cmd - 6 : yabai -m space --move 6
 ctrl + cmd - 7 : yabai -m space --move 7
 ctrl + cmd - 8 : yabai -m space --move 8
+ctrl + cmd - h: yabai -m space --move prev
+ctrl + cmd - l: yabai -m space --move next
+#################################################################################
+#SPACE SWAP
+#################################################################################
+ctrl + shift + cmd - 1 : yabai -m space --swap 1
+ctrl + shift + cmd - 2 : yabai -m space --swap 2
+ctrl + shift + cmd - 3 : yabai -m space --swap 3
+ctrl + shift + cmd - 4 : yabai -m space --swap 4
+ctrl + shift + cmd - 5 : yabai -m space --swap 5
+ctrl + shift + cmd - 6 : yabai -m space --swap 6
+ctrl + shift + cmd - 7 : yabai -m space --swap 7
+ctrl + shift + cmd - 8 : yabai -m space --swap 8
+#################################################################################
+#Move window to space and Focus
+#################################################################################
 ctrl + shift - 1 : yabai -m window --space 1; yabai -m space --focus 1
 ctrl + shift - 2 : yabai -m window --space 2; yabai -m space --focus 2
 ctrl + shift - 3 : yabai -m window --space 3; yabai -m space --focus 3
@@ -292,16 +157,12 @@ ctrl + shift - x : yabai -m window --space recent; yabai -m space --focus recent
 #alt - a : yabai -m space --toggle padding && yabai -m space --toggle gap
 
 # toggle window fullscreen zoom
-cmd + shift  - f : yabai -m window --toggle zoom-parent
-ctrl + shift - f : yabai -m window --toggle zoom-fullscreen
-
-
-# toggle window native fullscreen
-#alt + ctrl - f : yabai -m window --toggle native-fullscreen
 
 
 # float / unfloat window and restore position
 ctrl + cmd - t : yabai -m window --toggle float && yabai -m window --grid 4:4:1:1:2:2
+ctrl + shift - t : ~/bin/disable_topmost.sh 
+# ctrl + shift - t : yabai -m window --toggle topmost
 
 # create and destroy new space
-cmd + shift - q : brew services stop skhd
+ctrl + alt + cmd - q : brew services stop skhd
