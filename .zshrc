@@ -1,3 +1,23 @@
+#################################################################################
+# zgen plugin manager
+#################################################################################
+# load zgen
+source "${HOME}/.zgen/zgen.zsh"
+
+# if the init script doesn't exist
+if ! zgen saved; then
+
+  # specify plugins here
+    zgen oh-my-zsh
+    zgen load 'wfxr/forgit'
+    zgen oh-my-zsh 'powerlevel10k/powerlevel10k'
+  # generate the init script from plugins above
+  zgen save
+fi
+
+#################################################################################
+# omz
+#################################################################################
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -77,7 +97,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+#plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -112,7 +132,19 @@ source $ZSH/oh-my-zsh.sh
 # =======================================================================
 alias r="ranger"
 alias g='googler -n 7 -c jp -l jp'
-
+alias gvim='goneovim --maximized --nvim=/opt/homebrew/bin/nvim'
+alias srch="ag --filename --hidden . ./ | fzf | sed -E 's/([^:]+):([[:digit:]]+).+/\+\2 \1/' | xargs vim"
+alias pandoc="pandoc --markdown-heading=atx"
+alias ri="history | fzf --tiebreak=begin,index --tac | awk '{$1=\"\"; print $0}' | zsh"
+alias ls="exa"
+alias wgetall="wget -m -k -p -nc -E"
+alias ftcount="fd -t f . | rg '.*\\.[a-zA-Z0-9]*$' | sed -e 's/.*\\(\\.[a-zA-Z0-9]*\\)$/\\1/' | sort | uniq -c | sort -n"
+alias ytdl='yt-dlp --throttled-rate 1M --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"'
+alias ytdlm='yt-dlp --throttled-rate 1M --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36" -f ba -x --audio-format mp3 --download-archive audio.txt -o '"'"'%(channel)s/%(title)s.%(ext)s'"'" 
+alias dlm='yt-dlp -f ba -x --audio-format mp3 '
+alias o='fileopen.sh'
+alias h="showhelp.sh"
+alias deepascii="~/Projects/github/DeepAA/deepascii.py"
 # =======================================================================
 # ==Anaconda
 # =======================================================================
@@ -122,14 +154,14 @@ export PATH=/opt/homebrew/anaconda3/bin:"$PATH"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/akirakoizumi/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/akirakoizumi/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Users/akirakoizumi/miniforge3/etc/profile.d/conda.sh"
     else
-        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+        export PATH="/Users/akirakoizumi/miniforge3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -143,21 +175,29 @@ export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 #Path to run my own script
 export PATH="$PATH:/Users/$USER/bin"
+export PYTHONPATH="/Users/$USER/Projects/lib"
 #updated vim installed via Homebrew
 export vim="/opt/homebrew/bin/vim"
 #Ranger Configs
 export PAGER=bat
 export PROJDIR="$HOME/Projects"
+export MPLBACKEND="module://matplotlib-backend-kitty"
+export WEECHAT_HOME="$HOME/.weechat/plugins"
+export weechat_data_dir="$HOME/.weechat"
+export BAT_THEME="nord"
 #
 # =======================================================================
 # ==FZF Configs
 # =======================================================================
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPS="--extended --hidden"
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g .'" $PROJDIR"
-export FZF_CTRL_T_COMMAND="fd . --hidden $HOME"
-export FZF_ALT_C_COMMAND="fd . --hidden $HOME"
+export FZF_DEFAULT_OPTS="--extended --tiebreak=length,begin"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g .'" ."
+export FZF_CTRL_T_COMMAND="fd -t f -E '\.git/' -i -H -a . ./"
+export FZF_CTRL_T_OPTS="--tiebreak=length,end"
+export FZF_ALT_C_COMMAND="fd -H -t directory --base-directory $HOME/ . $HOME/"
+export FZF_ALT_C_OPTS="--tiebreak=length,begin,index"
+export FZF_CTRL_R_OPTS="--tiebreak=begin,end,index"
 # =======================================================================
 # ==Search Browser History
 # =======================================================================
@@ -174,3 +214,99 @@ ch() {
   awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
   fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
 }
+
+# =======================================================================
+# == FZF Search Epub
+# =======================================================================
+ff() {
+    local file
+    FD_PREFIX="fd -H -t file"
+	file="$(
+		FZF_DEFAULT_COMMAND="$FD_PREFIX '$1' ." \
+			fzf --sort --preview="bat {}" \
+                --phony -q "$1" \
+				--bind "change:reload:$FD_PREFIX {q} . || true" \
+				--preview-window="70%:wrap"
+                --ansi
+	)" &&
+	echo "opening $file" &&
+	open "$file"
+}
+fwf() {
+    local file
+    RG_PREFIX="ag -l"
+	file="$(
+        INITIAL_QUERY="."
+		FZF_DEFAULT_COMMAND="$RG_PREFIX -G '$1' $INITIAL_QUERY 2>/dev/null" \
+			fzf --multi --sort --preview="[[ ! -z {} ]] && rg -A 5 -N -p {q} {}" \
+                --phony \
+                -q $INITIAL_QUERY \
+				--bind "change:reload:$RG_PREFIX -G '$1' {q} || true" \
+				--preview-window="70%:wrap" \
+                --ansi
+                #--bind "change:select-all" \
+	)" &&
+	echo "opening $file" &&
+	open "$file" 2>/dev/null
+}
+fif() {
+    local file
+    RG_PREFIX="ag -l"
+	file="$(
+		FZF_DEFAULT_COMMAND="$RG_PREFIX '$1' 2>/dev/null" \
+			fzf --multi --sort --preview="[[ ! -z {} ]] && rg -A 5 -N -p {q} {}" \
+                --phony \
+                -q $1 \
+				--bind "change:reload:$RG_PREFIX {q} || true" \
+				--preview-window="70%:wrap" \
+                --ansi
+	)" &&
+	echo "opening $file" &&
+	open "$file" 2>/dev/null
+}
+
+source /Users/akirakoizumi/.config/broot/launcher/bash/br
+eval "$(zoxide init zsh)"
+
+#################################################################################
+# DBUS config for Signal Cli
+#################################################################################
+#brew services restart dbus
+export DBUS_LAUNCHD_SESSION_BUS_SOCKET=$(launchctl getenv DBUS_LAUNCHD_SESSION_BUS_SOCKET)
+export DBUS_SYSTEM_BUS_ADDRESS=unix:path=/usr/local/var/run/dbus/system_bus_socket
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library/
+export MYPUBKEY="age1nxgxw604kl0ymdyk0q6ltdst2j2kdykjg3s8nguxav00k75j8a3qpjuz4q"
+
+#################################################################################
+# The Fuck
+#################################################################################
+eval $(thefuck --alias)
+
+
+# JINA_CLI_BEGIN
+
+## autocomplete
+if [[ ! -o interactive ]]; then
+    return
+fi
+
+compctl -K _jina jina
+
+_jina() {
+  local words completions
+  read -cA words
+
+  if [ "${#words}" -eq 2 ]; then
+    completions="$(jina commands)"
+  else
+    completions="$(jina completions ${words[2,-2]})"
+  fi
+
+  reply=(${(ps:\n:)completions})
+}
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# JINA_CLI_END
