@@ -1,0 +1,12 @@
+# =======================================================================
+# ==FZF Configs
+# =======================================================================
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS="--extended --tiebreak=length,begin"
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g .'" ."
+export FZF_CTRL_T_COMMAND="fd -t f -E '\.git/' -i -H -a . ./"
+export FZF_CTRL_T_OPTS="--tiebreak=length,end"
+export FZF_ALT_C_COMMAND="fd -H -t directory --base-directory $HOME/ . $HOME/"
+export FZF_ALT_C_OPTS="--tiebreak=length,begin,index"
+export FZF_CTRL_R_OPTS="--tiebreak=begin,end,index"

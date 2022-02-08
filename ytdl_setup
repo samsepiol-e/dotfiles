@@ -1,0 +1,6 @@
+# =======================================================================
+# ==Youtube Download
+# =======================================================================
+alias ytdl='yt-dlp --throttled-rate 1M --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"'
+alias ytdlm='yt-dlp --throttled-rate 1M --user-agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36" -f ba -x --audio-format mp3 --download-archive audio.txt -o '"'"'%(channel)s/%(title)s.%(ext)s'"'" 
+alias dlm='yt-dlp -f ba -x --audio-format mp3 '
