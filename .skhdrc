@@ -34,7 +34,8 @@ ctrl + alt + cmd - m: mpd --kill && mpd
 #################################################################################
 # Launcher
 #################################################################################
-ctrl - return: kitty --single-instance -d ~
+#ctrl - return: kitty --single-instance -d ~
+ctrl - return: /Applications/Alacritty.app/Contents/MacOS/alacritty
 ctrl + shift - r: kitty --single-instance -d ~ ranger
 cmd -d : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ "$HOME/bin/launcher.sh"
 cmd -m : kitty -1 --instance-group="launcher" -T="applauncher" -d ~ $HOME/bin/findr.sh man_find
@@ -49,6 +50,7 @@ ctrl + shift - c : ~/bin/simplecalc.sh
 #################################################################################
 cmd + shift -r : kitty -1 -d ~ ranger
 cmd + shift - b : yabai -m space --layout bsp
+cmd + shift - s : yabai -m space --layout stack
 cmd + shift  - space : yabai -m space --layout float
 ctrl - q : yabai -m window --close && yabai -m window --focus recent
 ## Warp : alt + Shift
@@ -106,8 +108,8 @@ ctrl - 0x1B : yabai -m space --destroy $(yabai -m query --spaces --display | jq 
 #################################################################################
 # Rotate
 #################################################################################
-cmd  + shift - 0x2F : yabai -m space --rotate 270 # >
-cmd  + shift - 0x2B : yabai -m space --rotate 90 # <
+ctrl  + shift - 0x2F : yabai -m space --rotate 270 # >
+ctrl  + shift - 0x2B : yabai -m space --rotate 90 # <
 ctrl + shift - y : yabai -m space --mirror y-axis
 ctrl + shift - 0x2A : yabai -m window --toggle split # |
 ctrl + shift - 0x1E : yabai -m space --gap rel:10 # }

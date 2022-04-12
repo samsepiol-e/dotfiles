@@ -16,7 +16,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'morhetz/gruvbox'
 " Plugin 'itchyny/lightline.vim'
-Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'arcticicestudio/nord-vim'
 Plugin 'kshenoy/vim-signature'
@@ -169,8 +169,8 @@ autocmd filetype cpp nnoremap <F9> <esc>:w <bar> exec '!g++ '.shellescape('%').'
 autocmd filetype cpp inoremap <F9> <esc>:w <bar> exec '!g++ '.shellescape('%').' -o '.shellescape('%:r').' && ./'.shellescape('%:r')<CR>
 autocmd filetype sh nnoremap <F9> <esc>:w<CR>:!%:p<CR>
 autocmd filetype sh inoremap <F9> <esc>:w<CR>:!%:p<CR>
-autocmd filetype rust nnoremap <F9> <esc>:w<CR>:!cargo build<CR>
-autocmd filetype rust inoremap <F9> <esc>:w<CR>:!cargo build<CR>
+autocmd filetype rust nnoremap <F9> <esc>:w<CR>:!cargo run<CR>
+autocmd filetype rust inoremap <F9> <esc>:w<CR>:!cargo run<CR>
 " Navigate split pane
 nmap <silent> <c-k> <C-W>k
 nmap <silent> <c-j> <C-W>j
